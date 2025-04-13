@@ -1,7 +1,7 @@
 import { drizzle, PgliteDatabase } from "drizzle-orm/pglite";
-import * as Schema from "./schema.js";
+import * as Schema from "./schema";
 import { migrate } from "drizzle-orm/pglite/migrator";
-import { seed } from "./seed.js";
+import { seed } from "./seed";
 
 export type DrizzleDB = PgliteDatabase<typeof Schema>;
 

@@ -1,4 +1,3 @@
-import { getTableColumns } from "drizzle-orm";
 import { DrizzleDB } from "./db";
 import { userTable, postTable } from "./schema"; // Adjust this import path as needed
 
