@@ -1,9 +1,7 @@
 import { sql } from "drizzle-orm";
-import { Decoder, sqlDecoded, SQLDecoded } from "../sqlDecoded";
+import { sqlDecoded } from "../sqlDecoded";
 import { dateDecoder } from "./decoder";
 
-export function now(): SQLDecoded<Date, string>;
-export function now<T>(decoder: Decoder<T, string>): SQLDecoded<T, string>;
-export function now<T>(decoder?: Decoder<T, string>) {
-  return sqlDecoded(sql`NOW()`, decoder ?? dateDecoder);
+export function now() {
+    return sqlDecoded<Date, string>(sql`NOW()`, dateDecoder);
 }

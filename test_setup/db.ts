@@ -7,20 +7,19 @@ import { buildExecute, getSqlString } from "./execute";
 export type DrizzleDB = PgliteDatabase<typeof Schema>;
 
 export const getDB = async () => {
-  const drizzleDB = drizzle({
-    schema: Schema,
-    // logger: true,
-  });
+    const drizzleDB = drizzle({
+        schema: Schema,
+        // logger: true,
+    });
 
-  await migrate(drizzleDB, { migrationsFolder: "./drizzle/" });
+    await migrate(drizzleDB, { migrationsFolder: "./drizzle/" });
 
-  const seedData = await seed(drizzleDB);
+    const seedData = await seed(drizzleDB);
 
-  return {
-    db: drizzleDB,
-    seed: seedData,
-    exec: buildExecute(drizzleDB),
-    rawSql: (sql: Parameters<typeof getSqlString>[1]) =>
-      getSqlString(drizzleDB, sql),
-  };
+    return {
+        db: drizzleDB,
+        seed: seedData,
+        exec: buildExecute(drizzleDB),
+        rawSql: (sql: Parameters<typeof getSqlString>[1]) => getSqlString(drizzleDB, sql),
+    };
 };
