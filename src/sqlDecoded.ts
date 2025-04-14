@@ -11,6 +11,8 @@ export type DriverValue<T extends SQLDecoded<unknown, unknown>> =
 export type DataValue<T extends SQLDecoded<unknown, unknown>> =
   T extends SQLDecoded<infer TData, unknown> ? TData : never;
 
+export type Decoder<TData, TDriver> = (value: TDriver) => TData;
+
 export function sqlDecoded<TData extends Primitive>(
   sql: SQL<TData>,
 ): SQLDecoded<TData, TData>;

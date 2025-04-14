@@ -6,7 +6,10 @@ import { seed } from "./seed";
 export type DrizzleDB = PgliteDatabase<typeof Schema>;
 
 export const getDB = async () => {
-  const drizzleDB = drizzle({ schema: Schema });
+  const drizzleDB = drizzle({
+    schema: Schema,
+    logger: true,
+  });
 
   await migrate(drizzleDB, { migrationsFolder: "./drizzle/" });
 
