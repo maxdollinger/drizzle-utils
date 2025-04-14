@@ -5,5 +5,5 @@ import { dateDecoder } from "./decoder";
 export function now(): SQLDecoded<Date, string>;
 export function now<T>(decoder: Decoder<T, string>): SQLDecoded<T, string>;
 export function now<T>(decoder?: Decoder<T, string>) {
-  return sqlDecoded(sql`now()`, decoder ?? dateDecoder);
+  return sqlDecoded(sql`NOW()`, decoder ?? dateDecoder);
 }

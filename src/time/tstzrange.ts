@@ -4,7 +4,13 @@ import { dateDecoder } from "./decoder";
 
 export type Range = { start: Date; end: Date };
 
-export const tstzRangeDecoder = (value: string): Range => {
+export class RangeEncoderError extends Error {
+  public constructor() {
+    super("tstzrange encoder recieved invalid date");
+  }
+}
+
+export const tstzrangeDecoder = (value: string): Range => {
   const [startStr, endStr] = value.slice(1, -1).split(",");
 
   return {
@@ -13,8 +19,13 @@ export const tstzRangeDecoder = (value: string): Range => {
   };
 };
 
-export const tstzRange = (range: Range): SQLDecoded<Range, string> =>
-  sqlDecoded(
-    sql<Range>`tstzrange(${range.start.toISOString()}, ${range.end.toISOString()}, '[)')`.inlineParams(),
-    tstzRangeDecoder,
+export const tstzrange = (range: Range): SQLDecoded<Range, string> => {
+  if (isNaN(range.start.valueOf()) || isNaN(range.end.valueOf())) {
+    throw new RangeEncoderError();
+  }
+
+  return sqlDecoded(
+    sql<Range>`tstzrange(${range.start.toISOString()},${range.end.toISOString()},'[)')`.inlineParams(),
+    tstzrangeDecoder,
   );
+};

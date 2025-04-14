@@ -1,9 +1,8 @@
 import { type AnyColumn, type DriverValueDecoder, SQL, sql } from "drizzle-orm";
 import { type SelectResultFields } from "drizzle-orm/query-builders/select.types";
-import { Primitive } from "./type.utils";
-import { sqlDecoded, SQLDecoded } from "./sqlDecoded";
+import { Primitive } from "../type.utils";
+import { sqlDecoded, SQLDecoded } from "../sqlDecoded";
 import { noopDecoder } from "drizzle-orm";
-import { isDefined } from "./generalHelper";
 
 type Selection = Record<
   string,
@@ -67,10 +66,8 @@ export function jsonAgg<TData, TDriver = unknown>(
     order?: SQL;
   },
 ): SQLDecoded<TData[], TDriver[]> {
-  const filter = sql`filter ( where ${opts?.filter} )`.if(
-    isDefined(opts?.filter),
-  );
-  const order = sql`order by ${opts?.order}`.if(isDefined(opts?.order));
+  const filter = sql`filter ( where ${opts?.filter} )`.if(opts?.filter);
+  const order = sql`order by ${opts?.order}`.if(opts?.order);
   const statement = sql<
     TData[]
   >`coalesce(json_agg(${sqlWithDecoder} ${order}) ${filter}, '[]'::json)`;

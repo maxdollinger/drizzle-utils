@@ -4,7 +4,7 @@ export class DateDecoderError extends Error {
   }
 }
 
-export const dateDecoder = (value: string) => {
+export const dateDecoder = (value: string): Date => {
   const date = new Date(value);
   if (isNaN(date.valueOf())) {
     throw new DateDecoderError(value);
@@ -12,3 +12,6 @@ export const dateDecoder = (value: string) => {
 
   return date;
 };
+
+export const timestampDecoder = (value: string): number =>
+  dateDecoder(value).valueOf();
