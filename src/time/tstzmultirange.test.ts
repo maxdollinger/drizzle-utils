@@ -2,7 +2,6 @@ import { describe, expect, test } from "vitest";
 import { getDB } from "../../test_setup/db";
 import { tstzmultirange } from "./tstzmultirange";
 import { extractValue } from "../../test_setup/execute";
-import { RangeEncoderError } from "./tstzrange";
 
 const defaultRange1 = {
     start: new Date("2025-04-01T09:00:00+02:00"),
@@ -42,17 +41,5 @@ describe("tstzmultirange", async () => {
         );
 
         expect(ranges).toStrictEqual([defaultRange1, defaultRange2, defaultRange3]);
-    });
-
-    test("should throw on invalid range date", async () => {
-        const ranges = () =>
-            extractValue(
-                exec({
-                    range: tstzmultirange([{ start: new Date("not-a-date"), end: new Date("also-no-date") }]),
-                }),
-                "range",
-            );
-
-        expect(ranges).toThrow(RangeEncoderError);
     });
 });

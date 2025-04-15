@@ -4,7 +4,6 @@ import { postTable, userTable } from "../../test_setup/schema";
 import { jsonAgg } from "./jsonAgg";
 import { asc, eq, sql } from "drizzle-orm";
 import { interval } from "../time/interval";
-import { timestamp } from "drizzle-orm/pg-core";
 import { sqlDecoded } from "../sqlDecoded";
 import { dateDecoder } from "../time/decoder";
 import { desc } from "drizzle-orm";
