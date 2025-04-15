@@ -31,12 +31,9 @@ describe("tstzmultirange", async () => {
 
     test("should correct decoded range", async () => {
         const ranges = await extractValue(
-            exec(
-                {
-                    range: tstzmultirange([defaultRange1, defaultRange2, defaultRange3]),
-                },
-                true,
-            ),
+            exec({
+                range: tstzmultirange([defaultRange1, defaultRange2, defaultRange3]),
+            }),
             "range",
         );
 
