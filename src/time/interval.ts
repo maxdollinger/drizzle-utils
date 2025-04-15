@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { sqlDecoded } from "../sqlDecoded";
+import { AtLeastOne } from "../type.utils";
 
 export const MS_PER_SECOND = 1000;
 export const MS_PER_MINUTE = MS_PER_SECOND * 60;
@@ -34,7 +35,7 @@ const pgIntervalDecoder = (interval: string): number => {
     return ms;
 };
 
-export const interval = (iv: {
+type AllOptionalInterval = {
     year?: number;
     month?: number;
     week?: number;
@@ -42,8 +43,12 @@ export const interval = (iv: {
     hour?: number;
     minute?: number;
     second?: number;
-}) =>
+};
+
+export type Interval = AtLeastOne<AllOptionalInterval>;
+
+export const interval = (iv: Interval) =>
     sqlDecoded<number, string>(
-        sql<number>`make_interval(${iv.year ?? 0},${iv.month ?? 0},${iv.week ?? 0},${iv.day ?? 0},${iv.hour ?? 0},${iv.minute ?? 0},${iv.second ?? 0})`.inlineParams(),
+        sql<number>`make_interval(${iv?.year ?? 0},${iv?.month ?? 0},${iv?.week ?? 0},${iv?.day ?? 0},${iv?.hour ?? 0},${iv?.minute ?? 0},${iv?.second ?? 0})`.inlineParams(),
         pgIntervalDecoder,
     );
